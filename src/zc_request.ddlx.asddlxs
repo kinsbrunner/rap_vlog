@@ -1,0 +1,54 @@
+@Metadata.layer: #CORE
+@UI: { headerInfo: { typeName: 'Request',
+                     typeNamePlural: 'Requests',
+                     title: { type: #STANDARD,
+                              value: 'ExternalId' }} }
+                     
+annotate entity ZC_Request with 
+{
+  @UI.hidden: true
+  RequestUuid;
+  
+  @EndUserText.label: 'External ID'
+  @UI: { lineItem: [{ position: 10,
+                      label: 'External ID' }],
+         identification: [{ position: 10,
+                            label: 'External ID' }] }
+  ExternalId;
+
+  @EndUserText.label: 'Requester ID'
+  @UI: { lineItem: [{ position: 20,
+                      label: 'Requester ID' }],
+         identification: [{ position: 20,
+                            label: 'Requester ID' }] }
+  RequesterId;
+    
+  @UI: { lineItem: [{ position: 30,
+                      label: 'Status' }],
+         identification: [{ position: 30 }] }
+  Status;
+  
+  @UI.hidden: true
+  StatusCriticality;
+  
+  @UI: { lineItem: [{ position: 40,
+                      label: 'Priority' }],
+         identification: [{ position: 40 }] }
+  Priority;
+
+  @UI: { lineItem: [{ position: 50,
+                      label: 'Deadline Date' }],
+         identification: [{ position: 50,
+                            label: 'Deadline Date' }] }
+  DeadlineDate;
+
+  @UI: { lineItem: [{ position: 80,
+                      label: 'Cancellation Reason' }],
+         identification: [{ position: 60,
+                            label: 'Cancellation Reason' }] }
+  CancelReason;
+
+  @UI.lineItem: [{ position: 70,
+                   label: 'Last Changed At' }]
+  LastChangedAt;
+}

@@ -1,0 +1,5 @@
+@EndUserText.label: 'Request service definition'
+define service ZRAP_REQUEST {
+  expose ZC_Request     as Request;
+  expose ZC_RequestItem as RequestItems;
+}
