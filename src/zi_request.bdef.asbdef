@@ -1,0 +1,69 @@
+managed implementation in class zbp_i_request unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_Request alias Request
+persistent table zrap_a_request
+draft table zrap_d_request
+lock master total etag LastChangedAt
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create;
+  update;
+  internal delete;
+
+  draft action Edit;
+  draft action Activate;
+  draft action Resume;
+  draft action Discard;
+  draft determine action Prepare;
+
+  field ( numbering : managed ) RequestUuid;
+  field ( readonly ) RequestUuid;
+
+  association _items { create; with draft; }
+
+  mapping for zrap_a_request corresponding
+    {
+      RequestUuid   = request_uuid;
+      Status        = status;
+      Priority      = priority;
+      ExternalId    = external_id;
+      DeadlineDate  = deadline_date;
+      RequesterId   = requesterid;
+      CancelReason  = cancel_reason;
+      CreatedBy     = created_by;
+      CreatedAt     = created_at;
+      LastChangedBy = last_changed_by;
+      LastChangedAt = last_changed_at;
+    }
+}
+
+define behavior for ZI_RequestItem alias RequestItem
+persistent table zrap_a_reqitem
+draft table zrap_d_reqitem
+lock dependent by _Request
+authorization dependent by _Request
+etag master LastChangedAt
+{
+  update;
+  delete;
+  field ( numbering : managed ) ItemUuid;
+  field ( readonly ) RequestUuid, ItemUuid;
+
+  association _Request { with draft; }
+
+  mapping for zrap_a_reqitem corresponding
+    {
+      RequestUuid   = request_uuid;
+      ItemUuid      = item_uuid;
+      ProductId     = product_id;
+      ProductQty    = product_qty;
+      ProductUom    = product_uom;
+      CreatedAt     = created_at;
+      CreatedBy     = created_by;
+      LastChangedAt = last_changed_by;
+      LastChangedBy = last_changed_at;
+    }
+}

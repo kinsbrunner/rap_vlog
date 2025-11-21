@@ -1,0 +1,24 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_Request alias Request
+{
+  use create;
+  use update;
+  use association items { create; with draft; }
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+}
+
+define behavior for ZC_RequestItem alias RequestItem
+{
+  use update;
+  use delete;
+
+  use association request { with draft; }
+}

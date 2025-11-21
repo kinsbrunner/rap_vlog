@@ -6,6 +6,19 @@
                      
 annotate entity ZC_Request with 
 {
+  @UI.facet: [ { id: 'Request',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 label: 'Request',
+                 position: 10 },
+
+               { id: 'RequestItems',
+                 purpose: #STANDARD,
+                 type: #LINEITEM_REFERENCE,
+                 label: 'Requested Products',
+                 position: 20,
+                 targetElement: 'items' } ]
+
   @UI.hidden: true
   RequestUuid;
   
@@ -16,11 +29,12 @@ annotate entity ZC_Request with
                             label: 'External ID' }] }
   ExternalId;
 
-  @EndUserText.label: 'Requester ID'
-  @UI: { lineItem: [{ position: 20,
-                      label: 'Requester ID' }],
+  @UI: { selectionField: [{ position: 20 }],
+         textArrangement: #TEXT_ONLY,
+         lineItem: [{ position: 20,
+                      label: 'Requester' }],
          identification: [{ position: 20,
-                            label: 'Requester ID' }] }
+                            label: 'Requester' }] }
   RequesterId;
     
   @UI: { lineItem: [{ position: 30,
