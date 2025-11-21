@@ -8,14 +8,28 @@ define root view entity ZC_Request
   as projection on ZI_Request
 {
   key RequestUuid,
-      @Search.defaultSearchElement: true  
+  
+      @Search.defaultSearchElement: true
       ExternalId,
+
       @Search.defaultSearchElement: true
+      @ObjectModel.text.element: [ 'StatusText' ]
+      @Consumption.valueHelpDefinition: [{
+        entity: { name: 'ZI_Status_VH',
+                  element: 'StatusCode'} }]
       Status,
+      _status.StatusText             as StatusText,
       StatusCriticality,
+
       @Search.defaultSearchElement: true
+      @Consumption.filter.selectionType: #SINGLE
+      @ObjectModel.text.element: [ 'PriorityText' ]
+      @Consumption.valueHelpDefinition: [{
+        entity: { name: 'ZI_Priority_VH',
+                  element: 'PriorityCode'} }]
       Priority,
-      DeadlineDate,
+      _priority.PriorityText         as PriorityText,
+ 
       @Search.defaultSearchElement: true
       @ObjectModel.text.element: [ 'RequesterName' ]
       @Consumption.valueHelpDefinition: [{
@@ -23,9 +37,11 @@ define root view entity ZC_Request
                   element: 'BusinessPartner'} }]
       RequesterId,
       _requester.BusinessPartnerName as RequesterName,
+ 
+      DeadlineDate,
       CancelReason,
       LastChangedAt,
 
       /* Associations */
-      _items as items: redirected to composition child ZC_RequestItem
+      _items                         as items : redirected to composition child ZC_RequestItem
 }

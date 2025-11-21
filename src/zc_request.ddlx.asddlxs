@@ -37,7 +37,9 @@ annotate entity ZC_Request with
                             label: 'Requester' }] }
   RequesterId;
     
-  @UI: { lineItem: [{ position: 30,
+  @UI: { selectionField: [{ position: 30 }],
+         textArrangement: #TEXT_ONLY,
+         lineItem: [{ position: 30,
                       label: 'Status' }],
          identification: [{ position: 30 }] }
   Status;
@@ -45,7 +47,9 @@ annotate entity ZC_Request with
   @UI.hidden: true
   StatusCriticality;
   
-  @UI: { lineItem: [{ position: 40,
+  @UI: { selectionField: [{ position: 40 }],
+         textArrangement: #TEXT_ONLY,
+         lineItem: [{ position: 40,
                       label: 'Priority' }],
          identification: [{ position: 40 }] }
   Priority;
