@@ -4,7 +4,7 @@ define root view entity ZI_Request
   as select from zrap_a_request
 
   composition [0..*] of ZI_RequestItem    as _items
-  association [0..1] to I_BusinessPartner as _requester on $projection.RequesterId = _requester.BusinessPartner
+  association [0..1] to ZI_BusinessPartner_VH as _requester on $projection.RequesterId = _requester.BusinessPartner
   association [0..1] to ZI_Priority_VH    as _priority  on $projection.Priority = _priority.PriorityCode
   association [0..1] to ZI_Status_VH      as _status    on $projection.Status = _status.StatusCode
 {
