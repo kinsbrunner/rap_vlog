@@ -13,6 +13,8 @@ etag master LastChangedAt
   update;
   internal delete;
 
+  association _items { create; with draft; }
+
   draft action Edit;
   draft action Activate;
   draft action Resume;
@@ -20,9 +22,10 @@ etag master LastChangedAt
   draft determine action Prepare;
 
   field ( numbering : managed ) RequestUuid;
-  field ( readonly ) RequestUuid;
+  field ( readonly ) RequestUuid, ExternalId;
 
-  association _items { create; with draft; }
+  determination set_semantic_key on save { create; }
+  validation check_semantic_key on save { field ExternalId; }
 
   mapping for zrap_a_request corresponding
     {

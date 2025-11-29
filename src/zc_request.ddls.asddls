@@ -2,6 +2,7 @@
 @EndUserText.label: 'Request projection view'
 @Metadata.allowExtensions: true
 @Search.searchable: true
+@ObjectModel.semanticKey: [ 'ExternalId' ]
 
 define root view entity ZC_Request
   provider contract transactional_query
