@@ -29,6 +29,7 @@ etag master LastChangedAt
   validation check_semantic_key on save { field ExternalId; }
   validation check_mandatory_fields on save { create; update; }
   validation check_deadline_date on save { field DeadlineDate; }
+  determination set_priority on modify { field DeadlineDate; }
 
   mapping for zrap_a_request corresponding
     {

@@ -12,6 +12,8 @@ CLASS lhc_Request DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR request~check_mandatory_fields.
     METHODS check_deadline_date FOR VALIDATE ON SAVE
       IMPORTING keys FOR request~check_deadline_date.
+    METHODS set_priority FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR request~set_priority.
 
 
 ENDCLASS.
@@ -149,6 +151,26 @@ CLASS lhc_Request IMPLEMENTATION.
                                                    v1       = |{ ls_request-DeadlineDate DATE = USER }| ) ) INTO TABLE reported-request.
       ENDIF.
     ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD set_priority.
+    READ ENTITIES OF ZI_Request IN LOCAL MODE
+    ENTITY Request
+    FIELDS ( RequestUuid DeadlineDate )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_requests).
+
+    MODIFY ENTITIES OF ZI_Request IN LOCAL MODE
+    ENTITY Request
+    UPDATE
+    FIELDS ( Priority )
+    WITH VALUE #( FOR ls_request IN lt_requests
+                  ( %key = ls_request-%key
+                    Priority = COND #( WHEN ls_request-DeadlineDate - sy-datum < 3 THEN 1
+                                       WHEN ls_request-DeadlineDate - sy-datum < 7 THEN 2
+                                       ELSE 3 ) ) )
+    REPORTED DATA(ls_result).
   ENDMETHOD.
 
 ENDCLASS.
