@@ -23,9 +23,11 @@ etag master LastChangedAt
 
   field ( numbering : managed ) RequestUuid;
   field ( readonly ) RequestUuid, ExternalId;
+  field ( mandatory ) RequesterId, DeadlineDate;
 
   determination set_semantic_key on save { create; }
   validation check_semantic_key on save { field ExternalId; }
+  validation check_mandatory_fields on save { create; update; }
 
   mapping for zrap_a_request corresponding
     {
