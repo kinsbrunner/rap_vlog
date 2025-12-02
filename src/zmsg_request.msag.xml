@@ -26,6 +26,12 @@
      <MSGNR>002</MSGNR>
      <TEXT>External ID &amp;1 is not unique.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZMSG_REQUEST</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Deadline date must be greater than today&apos;s date and not &amp;1.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

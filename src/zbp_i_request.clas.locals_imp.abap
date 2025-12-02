@@ -10,6 +10,8 @@ CLASS lhc_Request DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR request~check_semantic_key.
     METHODS check_mandatory_fields FOR VALIDATE ON SAVE
       IMPORTING keys FOR request~check_mandatory_fields.
+    METHODS check_deadline_date FOR VALIDATE ON SAVE
+      IMPORTING keys FOR request~check_deadline_date.
 
 
 ENDCLASS.
@@ -123,6 +125,29 @@ CLASS lhc_Request IMPLEMENTATION.
           APPEND reported_zi_request_li TO reported-request.
         ENDIF.
       ENDLOOP.
+    ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD check_deadline_date.
+    READ ENTITIES OF ZI_Request IN LOCAL MODE
+      ENTITY Request
+      FIELDS ( DeadlineDate )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_requests).
+
+    DATA lv_min_date  TYPE d.
+    lv_min_date = sy-datum + 1.
+
+    LOOP AT lt_requests INTO DATA(ls_request).
+      IF ls_request-DeadlineDate < lv_min_date.
+        INSERT VALUE #( RequestUuid = ls_request-RequestUuid ) INTO TABLE failed-request.
+        INSERT VALUE #( RequestUuid = ls_request-RequestUuid
+                        %msg        = new_message( id       = 'ZMSG_REQUEST'
+                                                   number   = '003'
+                                                   severity = if_abap_behv_message=>severity-error
+                                                   v1       = |{ ls_request-DeadlineDate DATE = USER }| ) ) INTO TABLE reported-request.
+      ENDIF.
     ENDLOOP.
   ENDMETHOD.
 
