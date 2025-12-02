@@ -2,15 +2,25 @@
 @UI: { headerInfo: { typeName: 'Request',
                      typeNamePlural: 'Requests',
                      title: { type: #STANDARD,
-                              value: 'ExternalId' }} }
-                     
-annotate entity ZC_Request with 
+                              value: 'ExternalId' },
+                     description.value: 'StatusText' } }
+
+annotate entity ZC_Request with
 {
   @UI.facet: [ { id: 'Request',
                  purpose: #STANDARD,
                  type: #IDENTIFICATION_REFERENCE,
                  label: 'Request',
-                 position: 10 },
+                 position: 10,
+                 targetQualifier : 'Main' },
+
+               { id: 'ReqCancel',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 label: 'Cancellation Reason',
+                 position: 15,
+                 targetQualifier : 'Cancel'
+               },
 
                { id: 'RequestItems',
                  purpose: #STANDARD,
@@ -21,49 +31,57 @@ annotate entity ZC_Request with
 
   @UI.hidden: true
   RequestUuid;
-  
+
   @EndUserText.label: 'External ID'
   @UI: { lineItem: [{ position: 10,
-                      label: 'External ID' }],
-         identification: [{ position: 10,
-                            label: 'External ID' }] }
+                      label: 'External ID' }] }
   ExternalId;
 
   @UI: { selectionField: [{ position: 20 }],
          textArrangement: #TEXT_ONLY,
          lineItem: [{ position: 20,
                       label: 'Requester' }],
-         identification: [{ position: 20,
+         identification: [{ qualifier: 'Main',
+                            position: 10,
                             label: 'Requester' }] }
   RequesterId;
-    
+
   @UI: { selectionField: [{ position: 30 }],
          textArrangement: #TEXT_ONLY,
          lineItem: [{ position: 30,
-                      label: 'Status' }],
-         identification: [{ position: 30 }] }
+                      label: 'Status',
+                      criticality: 'StatusCriticality',
+                      criticalityRepresentation: #WITH_ICON }],
+         identification: [{ qualifier: 'Main',
+                            position: 20,
+                            criticality: 'StatusCriticality',
+                            criticalityRepresentation: #WITH_ICON }] }
   Status;
-  
+
   @UI.hidden: true
   StatusCriticality;
-  
+
   @UI: { selectionField: [{ position: 40 }],
          textArrangement: #TEXT_ONLY,
          lineItem: [{ position: 40,
                       label: 'Priority' }],
-         identification: [{ position: 40 }] }
+         identification: [{ qualifier: 'Main',
+                            position: 30 }] }
   Priority;
 
   @UI: { lineItem: [{ position: 50,
                       label: 'Deadline Date' }],
-         identification: [{ position: 50,
+         identification: [{ qualifier: 'Main',
+                            position: 40,
                             label: 'Deadline Date' }] }
   DeadlineDate;
 
   @UI: { lineItem: [{ position: 80,
                       label: 'Cancellation Reason' }],
-         identification: [{ position: 60,
-                            label: 'Cancellation Reason' }] }
+         fieldGroup: [{ qualifier: 'Cancel',
+                            position: 10,
+                            label: '' }] }
+  @UI.multiLineText: true
   CancelReason;
 
   @UI.lineItem: [{ position: 70,
