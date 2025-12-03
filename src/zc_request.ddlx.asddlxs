@@ -29,6 +29,13 @@ annotate entity ZC_Request with
                  position: 20,
                  targetElement: 'items' } ]
 
+  @UI.lineItem: [{ type: #FOR_ACTION,
+                   label: 'Cancel Request',
+                   dataAction: 'cancel_request',
+                   requiresContext: true,
+                   invocationGrouping: #CHANGE_SET }] //This makes the call a single time when doing in batch
+
+
   @UI.hidden: true
   RequestUuid;
 

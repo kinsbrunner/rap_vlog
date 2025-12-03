@@ -18,6 +18,8 @@ CLASS lhc_Request DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR request~set_initial_status.
     METHODS get_instance_features FOR INSTANCE FEATURES
       IMPORTING keys REQUEST requested_features FOR request RESULT result.
+    METHODS cancel_request FOR MODIFY
+      IMPORTING keys FOR ACTION request~cancel_request.
 
 
 ENDCLASS.
@@ -207,6 +209,25 @@ CLASS lhc_Request IMPLEMENTATION.
                                                         THEN if_abap_behv=>fc-f-read_only
                                                         ELSE if_abap_behv=>fc-f-unrestricted ) ) ).
     ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD cancel_request.
+    READ ENTITIES OF ZI_Request IN LOCAL MODE
+    ENTITY Request
+    FIELDS ( Status )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_requests).
+
+    MODIFY ENTITIES OF ZI_Request IN LOCAL MODE
+    ENTITY Request
+    UPDATE
+    FIELDS ( Status CancelReason )
+    WITH VALUE #( FOR ls_request IN lt_Requests
+                  ( %key = ls_request-%key
+                    Status = '103'
+                    CancelReason = keys[ RequestUuid = ls_request-RequestUuid ]-%param-cancel_reason ) )
+    REPORTED DATA(ls_result).
   ENDMETHOD.
 
 ENDCLASS.

@@ -1,6 +1,7 @@
 projection;
 strict ( 2 );
 use draft;
+use side effects;
 
 define behavior for ZC_Request alias Request
 {
@@ -13,6 +14,8 @@ define behavior for ZC_Request alias Request
   use action Discard;
   use action Resume;
   use action Prepare;
+
+  use action cancel_request;
 
   field(suppress) StatusFilter;
 }

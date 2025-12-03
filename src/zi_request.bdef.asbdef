@@ -24,7 +24,8 @@ etag master LastChangedAt
   field ( numbering : managed ) RequestUuid;
   field ( readonly ) RequestUuid, ExternalId, Priority;
   field ( mandatory ) RequesterId, DeadlineDate;
-  field ( features : instance ) Status;  // This is to prevent Status manual set during creation of a request
+  // This is to prevent Status manual set during creation of a request
+  field ( features : instance ) Status;
 
   determination set_semantic_key on save { create; }
   validation check_semantic_key on save { field ExternalId; }
@@ -32,6 +33,14 @@ etag master LastChangedAt
   validation check_deadline_date on save { field DeadlineDate; }
   determination set_priority on modify { field DeadlineDate; }
   determination set_initial_status on modify { create; }
+
+  action ( features : instance ) cancel_request parameter ZP_Popup;
+
+  side effects
+  {
+    // This is for refreshing after Cancel Request action
+    action cancel_request affects $self;
+  }
 
   mapping for zrap_a_request corresponding
     {
