@@ -13,6 +13,8 @@ define behavior for ZC_Request alias Request
   use action Discard;
   use action Resume;
   use action Prepare;
+
+  field(suppress) StatusFilter;
 }
 
 define behavior for ZC_RequestItem alias RequestItem
