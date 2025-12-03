@@ -24,6 +24,7 @@ etag master LastChangedAt
   field ( numbering : managed ) RequestUuid;
   field ( readonly ) RequestUuid, ExternalId, Priority;
   field ( mandatory ) RequesterId, DeadlineDate;
+  field ( features : instance ) Status;  // This is to prevent Status manual set during creation of a request
 
   determination set_semantic_key on save { create; }
   validation check_semantic_key on save { field ExternalId; }
