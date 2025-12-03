@@ -14,6 +14,8 @@ CLASS lhc_Request DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR request~check_deadline_date.
     METHODS set_priority FOR DETERMINE ON MODIFY
       IMPORTING keys FOR request~set_priority.
+    METHODS set_initial_status FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR request~set_initial_status.
 
 
 ENDCLASS.
@@ -170,6 +172,18 @@ CLASS lhc_Request IMPLEMENTATION.
                     Priority = COND #( WHEN ls_request-DeadlineDate - sy-datum < 3 THEN 1
                                        WHEN ls_request-DeadlineDate - sy-datum < 7 THEN 2
                                        ELSE 3 ) ) )
+    REPORTED DATA(ls_result).
+  ENDMETHOD.
+
+
+  METHOD set_initial_status.
+    MODIFY ENTITIES OF ZI_Request IN LOCAL MODE
+    ENTITY Request
+    UPDATE
+    FIELDS ( Status )
+    WITH VALUE #( FOR ls_key IN keys
+                  ( %key = ls_key-%key
+                    Status = 100 ) )
     REPORTED DATA(ls_result).
   ENDMETHOD.
 

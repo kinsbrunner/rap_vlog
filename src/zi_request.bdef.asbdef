@@ -22,7 +22,7 @@ etag master LastChangedAt
   draft determine action Prepare;
 
   field ( numbering : managed ) RequestUuid;
-  field ( readonly ) RequestUuid, ExternalId;
+  field ( readonly ) RequestUuid, ExternalId, Priority;
   field ( mandatory ) RequesterId, DeadlineDate;
 
   determination set_semantic_key on save { create; }
@@ -30,6 +30,7 @@ etag master LastChangedAt
   validation check_mandatory_fields on save { create; update; }
   validation check_deadline_date on save { field DeadlineDate; }
   determination set_priority on modify { field DeadlineDate; }
+  determination set_initial_status on modify { create; }
 
   mapping for zrap_a_request corresponding
     {
