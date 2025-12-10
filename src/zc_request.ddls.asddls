@@ -48,6 +48,7 @@ define root view entity ZC_Request
 
       DeadlineDate,
       CancelReason,
+      CancelReasonHidden,      
       LastChangedAt,
 
       /* Associations */

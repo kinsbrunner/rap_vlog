@@ -11,16 +11,7 @@ annotate entity ZC_Request with
                  purpose: #STANDARD,
                  type: #IDENTIFICATION_REFERENCE,
                  label: 'Request',
-                 position: 10,
-                 targetQualifier : 'Main' },
-
-               { id: 'ReqCancel',
-                 purpose: #STANDARD,
-                 type: #FIELDGROUP_REFERENCE,
-                 label: 'Cancellation Reason',
-                 position: 15,
-                 targetQualifier : 'Cancel'
-               },
+                 position: 10 },
 
                { id: 'RequestItems',
                  purpose: #STANDARD,
@@ -48,15 +39,14 @@ annotate entity ZC_Request with
          textArrangement: #TEXT_ONLY,
          lineItem: [{ position: 20,
                       label: 'Requester' }],
-         identification: [{ qualifier: 'Main',
-                            position: 10,
+         identification: [{ position: 10,
                             label: 'Requester' }] }
   RequesterId;
 
-  @UI: { identification: [{ qualifier: 'Main',
-                            position: 20,
-                            criticality: 'StatusCriticality',
-                            criticalityRepresentation: #WITH_ICON }] }
+//  @UI: { identification: [{ position: 20,
+//                            criticality: 'StatusCriticality',
+//                            criticalityRepresentation: #WITH_ICON }] }
+  @UI.hidden: true
   Status;
 
   @UI: { selectionField: [{ position: 30 }],
@@ -74,23 +64,21 @@ annotate entity ZC_Request with
          textArrangement: #TEXT_ONLY,
          lineItem: [{ position: 40,
                       label: 'Priority' }],
-         identification: [{ qualifier: 'Main',
-                            position: 30 }] }
+         identification: [{ position: 30 }] }
   Priority;
 
   @UI: { lineItem: [{ position: 50,
                       label: 'Deadline Date' }],
-         identification: [{ qualifier: 'Main',
-                            position: 40,
+         identification: [{ position: 40,
                             label: 'Deadline Date' }] }
   DeadlineDate;
 
   @UI: { lineItem: [{ position: 80,
                       label: 'Cancellation Reason' }],
-         fieldGroup: [{ qualifier: 'Cancel',
-                            position: 10,
-                            label: '' }] }
+         identification: [{ position: 80,
+                            label: 'Cancellation Reason' }] }
   @UI.multiLineText: true
+  @UI.hidden: #( CancelReasonHidden )
   CancelReason;
 
   @UI.lineItem: [{ position: 70,

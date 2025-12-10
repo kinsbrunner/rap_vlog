@@ -207,6 +207,9 @@ CLASS lhc_Request IMPLEMENTATION.
       result = VALUE #( ( %tky = ls_request-%tky
                           %field-Status       = COND #( WHEN ls_request-ExternalId IS INITIAL
                                                         THEN if_abap_behv=>fc-f-read_only
+                                                        ELSE if_abap_behv=>fc-f-unrestricted )
+                          %field-CancelReason = COND #( WHEN ls_request-Status = 103 "Cancelled
+                                                        THEN if_abap_behv=>fc-f-mandatory
                                                         ELSE if_abap_behv=>fc-f-unrestricted ) ) ).
     ENDLOOP.
   ENDMETHOD.

@@ -26,6 +26,8 @@ etag master LastChangedAt
   field ( mandatory ) RequesterId, DeadlineDate;
   // This is to prevent Status manual set during creation of a request
   field ( features : instance ) Status;
+  // This is to enable/disable field based on Status
+  field ( features : instance ) CancelReason;
 
   determination set_semantic_key on save { create; }
   validation check_semantic_key on save { field ExternalId; }
@@ -38,6 +40,9 @@ etag master LastChangedAt
 
   side effects
   {
+    // This is for refreshing the editability of Cancel Reason after status gets updated
+    field Status affects permissions ( field CancelReason );
+
     // This is for refreshing after Cancel Request action
     action cancel_request affects $self;
   }
