@@ -112,8 +112,10 @@ CLASS lhc_Request IMPLEMENTATION.
 
       LOOP AT components_permission_request INTO component_permission_request.
         " Permission result for the global information ( field ( mandatory ) DeadlineDate; ) is stored in a structure.
+        " Permission result for instances (field ( features : instance ) CancelReason;) is stored in an internal table.
 
-        IF permission_result-global-%field-(component_permission_request-name) = if_abap_behv=>fc-f-mandatory AND
+        IF ( permission_result-global-%field-(component_permission_request-name) = if_abap_behv=>fc-f-mandatory OR
+             permission_result-instances[ RequestUuid = ls_request-RequestUuid ]-%field-(component_permission_request-name) = if_abap_behv=>fc-f-mandatory ) AND
            ls_request-(component_permission_request-name) IS INITIAL.
 
           APPEND VALUE #( %tky = ls_request-%tky ) TO failed-request.
