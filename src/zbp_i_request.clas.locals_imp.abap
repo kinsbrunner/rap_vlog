@@ -206,13 +206,31 @@ CLASS lhc_Request IMPLEMENTATION.
     " Loop the nodes and set the Mandatory field either to read-only or mandatory based on the
     "  value of Status field
     LOOP AT lt_requests INTO DATA(ls_request).
-      result = VALUE #( ( %tky = ls_request-%tky
-                          %field-Status       = COND #( WHEN ls_request-ExternalId IS INITIAL
-                                                        THEN if_abap_behv=>fc-f-read_only
-                                                        ELSE if_abap_behv=>fc-f-unrestricted )
-                          %field-CancelReason = COND #( WHEN ls_request-Status = 103 "Cancelled
-                                                        THEN if_abap_behv=>fc-f-mandatory
-                                                        ELSE if_abap_behv=>fc-f-unrestricted ) ) ).
+      APPEND VALUE #( %tky = ls_request-%tky
+                      " This is for preventing Status from being set during Create
+                      %field-Status       = COND #( WHEN ls_request-ExternalId IS INITIAL
+                                                    THEN if_abap_behv=>fc-f-read_only
+                                                    ELSE if_abap_behv=>fc-f-unrestricted )
+                      " This is for marking the CancelReason as mandatory when Status is Cancelled
+                      %field-CancelReason = COND #( WHEN ls_request-Status = 103 "Cancelled
+                                                    THEN if_abap_behv=>fc-f-mandatory
+                                                    ELSE if_abap_behv=>fc-f-unrestricted )
+                     " This is for disabling the edit of header fields, for a cancelled request
+                     %update   = COND #( WHEN ls_request-Status = 103
+                                         THEN if_abap_behv=>fc-o-disabled
+                                         ELSE if_abap_behv=>fc-o-enabled )
+                     " This is for disabling the Create button of the children
+                     %assoc-_items       = COND #( WHEN ls_request-Status = 103
+                                                   THEN if_abap_behv=>fc-o-disabled
+                                                   ELSE if_abap_behv=>fc-o-enabled )
+                     " This is for disabling the draft Edit button
+                     %action-Edit = COND #( WHEN ls_request-Status = 103
+                                            THEN if_abap_behv=>fc-o-disabled
+                                            ELSE if_abap_behv=>fc-o-enabled )
+                     " This is for disabling the Cancel custom action, for the already cancelled requests
+                     %action-cancel_request = COND #( WHEN ls_request-Status = 103
+                                                      THEN if_abap_behv=>fc-o-disabled
+                                                      ELSE if_abap_behv=>fc-o-enabled ) ) TO result.
     ENDLOOP.
   ENDMETHOD.
 

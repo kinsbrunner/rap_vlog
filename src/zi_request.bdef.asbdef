@@ -10,12 +10,15 @@ authorization master ( instance )
 etag master LastChangedAt
 {
   create;
-  update;
+  // This is for being able to block the Update operation
+  update ( features : instance );
   internal delete;
 
-  association _items { create; with draft; }
+  // This is for disabling the Create-by-association children button
+  association _items { create( features : instance ); with draft; }
 
-  draft action Edit;
+  // This is for disabling the Edit draft button
+  draft action ( features : instance ) Edit;
   draft action Activate;
   draft action Resume;
   draft action Discard;
@@ -36,6 +39,7 @@ etag master LastChangedAt
   determination set_priority on modify { field DeadlineDate; }
   determination set_initial_status on modify { create; }
 
+  // This is for disabling the action for already cancelled requests
   action ( features : instance ) cancel_request parameter ZP_Popup;
 
   side effects
