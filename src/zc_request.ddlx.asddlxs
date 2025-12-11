@@ -28,7 +28,7 @@ annotate entity ZC_Request with
 
   @UI.identification: [{ type: #FOR_ACTION,
                          position: 10, 
-                         label: 'NEW Product',
+                         label: 'Add Quick Product',
                          dataAction: 'add_item' }]
 
 
@@ -48,9 +48,6 @@ annotate entity ZC_Request with
                             label: 'Requester' }] }
   RequesterId;
 
-//  @UI: { identification: [{ position: 20,
-//                            criticality: 'StatusCriticality',
-//                            criticalityRepresentation: #WITH_ICON }] }
   @UI.hidden: true
   Status;
 
