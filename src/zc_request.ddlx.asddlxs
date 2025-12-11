@@ -26,6 +26,11 @@ annotate entity ZC_Request with
                    requiresContext: true,
                    invocationGrouping: #CHANGE_SET }] //This makes the call a single time when doing in batch
 
+  @UI.identification: [{ type: #FOR_ACTION,
+                         position: 10, 
+                         label: 'NEW Product',
+                         dataAction: 'add_item' }]
+
 
   @UI.hidden: true
   RequestUuid;

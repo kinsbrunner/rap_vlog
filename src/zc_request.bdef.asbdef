@@ -16,6 +16,7 @@ define behavior for ZC_Request alias Request
   use action Prepare;
 
   use action cancel_request;
+  use action add_item;
 
   field(suppress) StatusFilter;
 }

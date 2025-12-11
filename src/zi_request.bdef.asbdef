@@ -41,6 +41,8 @@ etag master LastChangedAt
 
   // This is for disabling the action for already cancelled requests
   action ( features : instance ) cancel_request parameter ZP_Popup;
+  // This is for disabling the button when BO is under Draft mode
+  action ( features : instance ) add_item parameter ZP_PopupItem;
 
   side effects
   {
@@ -49,6 +51,9 @@ etag master LastChangedAt
 
     // This is for refreshing after Cancel Request action
     action cancel_request affects $self;
+
+    // This is for refreshing after New Product action
+    action add_item affects $self;
   }
 
   mapping for zrap_a_request corresponding
@@ -76,10 +81,10 @@ etag master LastChangedAt
 {
   update;
   delete;
+  association _Request { with draft; }
+
   field ( numbering : managed ) ItemUuid;
   field ( readonly ) RequestUuid, ItemUuid;
-
-  association _Request { with draft; }
 
   mapping for zrap_a_reqitem corresponding
     {
@@ -90,7 +95,7 @@ etag master LastChangedAt
       ProductUom    = product_uom;
       CreatedAt     = created_at;
       CreatedBy     = created_by;
-      LastChangedAt = last_changed_by;
-      LastChangedBy = last_changed_at;
+      LastChangedAt = last_changed_at;
+      LastChangedBy = last_changed_by;
     }
 }
