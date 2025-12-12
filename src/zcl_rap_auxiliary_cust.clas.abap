@@ -23,9 +23,9 @@ CLASS zcl_rap_auxiliary_cust IMPLEMENTATION.
     DATA lt_records TYPE TABLE OF zrap_c_products.
 
     lt_records = VALUE #(
-      ( product = CONV matnr( |{ '1111' ALPHA = IN }| ) is_available = abap_true  max_amount = 10 )
-      ( product = CONV matnr( |{ '2222' ALPHA = IN }| ) is_available = abap_true  max_amount = 10 )
-      ( product = CONV matnr( |{ '3333' ALPHA = IN }| ) is_available = abap_false max_amount = 10 )
+      ( product = CONV matnr( |{ '1111' ALPHA = IN }| ) is_available = abap_true  description = 'Printer' )
+      ( product = CONV matnr( |{ '2222' ALPHA = IN }| ) is_available = abap_true  description = 'Headphones' )
+      ( product = CONV matnr( |{ '3333' ALPHA = IN }| ) is_available = abap_false description = 'Microphone' )
     ).
 
     DELETE FROM zrap_c_products.
