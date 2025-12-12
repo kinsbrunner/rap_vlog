@@ -26,11 +26,12 @@ ENDCLASS.
 
 CLASS lcl_request_validation IMPLEMENTATION.
   METHOD get_product.
+    DATA(lv_matnr_int) = CONV matnr( |{ iv_product ALPHA = IN }| ).
 
     SELECT SINGLE
       FROM zrap_c_products
       FIELDS *
-      WHERE product = @iv_product
+      WHERE product = @lv_matnr_int
       INTO @rs_product.
 
     IF sy-subrc <> 0.
