@@ -85,6 +85,9 @@ etag master LastChangedAt
 
   field ( numbering : managed ) ItemUuid;
   field ( readonly ) RequestUuid, ItemUuid;
+  field ( mandatory ) ProductId, ProductQty, ProductUom;
+
+  validation check_unique_product on save { field ProductId; create; update; }
 
   mapping for zrap_a_reqitem corresponding
     {

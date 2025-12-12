@@ -49,6 +49,8 @@ CLASS lhc_requestitem DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS precheck_update FOR PRECHECK
       IMPORTING entities FOR UPDATE RequestItem.
+    METHODS check_unique_product FOR VALIDATE ON SAVE
+      IMPORTING keys FOR RequestItem~check_unique_product.
 
 ENDCLASS.
 
@@ -87,6 +89,41 @@ CLASS lhc_requestitem IMPLEMENTATION.
                                               v1       = |{ <ls_entity>-ProductId ALPHA = OUT }| ) ) TO reported-requestitem.
 
       ENDTRY.
+    ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD check_unique_product.
+    TYPES: BEGIN OF ty_seen,
+             request_uuid TYPE sysuuid_x16,
+             product_id   TYPE matnr,
+           END OF ty_seen.
+
+    DATA lt_seen TYPE SORTED TABLE OF ty_seen
+                        WITH UNIQUE KEY request_uuid product_id.
+
+
+    READ ENTITIES OF zi_request IN LOCAL MODE
+      ENTITY Request BY \_items
+      ALL FIELDS
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_items).
+
+    LOOP AT lt_items ASSIGNING FIELD-SYMBOL(<ls_item>).
+      INSERT VALUE ty_seen( request_uuid = <ls_item>-RequestUuid
+                            product_id   = <ls_item>-ProductId ) INTO TABLE lt_seen.
+
+      IF sy-subrc NE 0.
+        " It means there is a duplicate
+        APPEND VALUE #( %tky = <ls_item>-%tky ) TO failed-requestitem.
+        APPEND VALUE #( %tky = <ls_item>-%tky
+                        %msg = new_message( id       = 'ZMSG_REQUEST'
+                                            number   = '006'
+                                            severity = if_abap_behv_message=>severity-error
+                                            v1       = |{ <ls_item>-ProductId ALPHA = OUT }| ) ) TO reported-requestitem.
+
+        CONTINUE.
+      ENDIF.
     ENDLOOP.
   ENDMETHOD.
 
