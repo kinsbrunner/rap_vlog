@@ -32,6 +32,18 @@
      <MSGNR>003</MSGNR>
      <TEXT>Deadline date must be greater than today&apos;s date and not &amp;1.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZMSG_REQUEST</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Product &amp;1 is not allowed.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZMSG_REQUEST</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>Product &amp;1 is no longer allowed.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

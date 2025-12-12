@@ -15,7 +15,7 @@ etag master LastChangedAt
   internal delete;
 
   // This is for disabling the Create-by-association children button
-  association _items { create( features : instance ); with draft; }
+  association _items { create( features : instance, precheck ); with draft; }
 
   // This is for disabling the Edit draft button
   draft action ( features : instance ) Edit;
@@ -79,7 +79,7 @@ lock dependent by _Request
 authorization dependent by _Request
 etag master LastChangedAt
 {
-  update;
+  update ( precheck );
   delete;
   association _Request { with draft; }
 
