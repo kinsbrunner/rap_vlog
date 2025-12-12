@@ -88,6 +88,7 @@ etag master LastChangedAt
   field ( mandatory ) ProductId, ProductQty, ProductUom;
 
   validation check_unique_product on save { field ProductId; create; update; }
+  validation check_item_mandatory_fields on save { create; update; }
 
   mapping for zrap_a_reqitem corresponding
     {
