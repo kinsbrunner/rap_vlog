@@ -1,6 +1,6 @@
 @EndUserText.label: 'Entity for item creation'
 
-define abstract entity ZP_PopupItem
+define root abstract entity ZP_PopupItem
 {
       @EndUserText.label: 'Product ID'
       ProductId     : matnr;

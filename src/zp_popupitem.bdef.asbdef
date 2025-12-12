@@ -1,0 +1,7 @@
+abstract;
+
+define behavior for ZP_PopupItem //alias <alias_name>
+{
+    //No create/update/delete, I only want field control
+    field ( mandatory ) ProductId, ProductAmount, ProductUom;
+}
